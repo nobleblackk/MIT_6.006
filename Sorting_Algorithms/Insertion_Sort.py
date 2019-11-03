@@ -33,7 +33,7 @@ def Insertion_Sort(A):
                     A[j],A[j-1]=A[j-1],A[j]
     print(A)        
 
-Insertion_Sort([5,2,4,-6,1,3])
+#Insertion_Sort([5,2,4,-6,1,3])
 
 
 
