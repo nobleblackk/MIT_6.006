@@ -1,0 +1,84 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# #Implementation of Karp-Rabin Pattern Matching Algorithm(Rolling-Hash ADT)
+
+# In[1]:
+
+
+#!/usr/bin/python36
+
+import os
+import subprocess as sp
+import math
+from random import randint, randrange
+from bisect import bisect, bisect_left, bisect_right
+from collections import Counter
+from heapq import heappush, heappop, heapify
+
+
+# In[56]:
+
+
+class KarpRabin:
+    def __init__(self):
+        self.pattern=None
+        self.string=None
+        self.prime=None
+        
+    def search(self,pattern,string,prime,base=26): #Function to pattern searching
+        self.pattern=str(pattern)
+        self.string=str(string)
+        self.prime=prime
+        self.base=base
+        rp=0 #Variable to store Rolling-Hash of Pattern
+        rs=0 #Variable to store Rolling-Hash of String
+        
+        for i in range(len(self.pattern)):
+            rp = ((rp*self.base)+ord(self.pattern[i])) % self.prime
+            rs = ((rs*self.base)+ord(self.string[i])) % self.prime
+        
+        if rp == rs: #If Hash-Function is same, Still we need to match the pattern,
+                    #as different-different strings could generate same Hash-Function
+            
+            if self.pattern == self.string[0:len(self.pattern)]:
+                print("Match Found")
+                #print("rp",rp,"rs",rs)
+                return 
+        for i in range(len(self.pattern),len(self.string)): #Iterate Through whole String,
+                                            #When First window of String is not matched with pattern
+            
+            rs = ((rs)-(ord(self.string[i-len(self.pattern)])*(self.base**(len(self.pattern)-1)))) % self.prime    
+                #Eliminating the first element of window partition 
+            
+            rs = ((rs*self.base)+ord(self.string[i])) % self.prime
+                #Adding the next element to window partition
+                        
+            if rs == rp:
+                if self.pattern == self.string[i-len(self.pattern)+1:i+1]:
+                    print("Match Found")
+                    return 
+            
+        return 'Match Not Found'
+            
+            
+            
+            
+
+
+# In[57]:
+
+
+a=KarpRabin()
+
+
+# In[60]:
+
+
+a.search('abhiz','shgabhiz',757)
+
+
+# In[ ]:
+
+
+              ###Contributed by NobleBlack
